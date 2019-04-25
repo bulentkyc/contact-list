@@ -62,28 +62,34 @@
         </div>
         <div class="modal-body">
             <form class="container" action="/sendMail" method="POST" enctype="multipart/form-data">
-                    
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text">@</div>
                         </div>
-                        <input type="email" class="form-control" name="email"  placeholder="CC address">
+                        <input type="email" class="form-control" name="to" id="to" readonly>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
+                        </div>
+                        <input type="email" class="form-control" name="cc"  placeholder="CC address">
                     </div>
 
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text">...</div>
                         </div>
-                        <input type="text" class="form-control" name="name" placeholder="Mail Subject">
+                        <input type="text" class="form-control" name="subject" placeholder="Mail Subject">
                     </div>
 
                     <div class="input-group mb-2">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control"  rows="3" name="message"></textarea>
                     </div>
                     
                 <div class="input-group mb-2 ">
                     <label class="custom-file-label" for="avatar">Choose File</label>
-                    <input type="file" class="custom-file-input" id="avatar" name="avatar">
+                    <input type="file" class="custom-file-input" id="attach" name="attach">
                 </div>
 
                 <div class="input-group mb-2">
@@ -93,8 +99,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <p class="text-center m-auto">© 2019 Bülent Kayici</p>
         </div>
         </div>
     </div>
@@ -104,12 +109,13 @@
         <ul class="col-xs-12 mx-auto ul">
             {{#each contactList}}
                 <li class="li row">
-                    <div class="float-left col-10">
+                    <div class="float-left col-6">
                         <img src="/uploads/{{this.avatar}}">
                         {{this.name}}
-                        <div class="float-right">
-                            {{this.email}}
-                        </div>
+                    </div>
+
+                    <div class="col-4 text-center float-right">
+                        {{this.email}}
                     </div>
 
                     <div class="col-1 text-center">
@@ -126,9 +132,14 @@
     
     <script>
         let mailPopUp = (targetObj) => {
-            let contact = targetObj.parentElement.parentElement.cloneNode(true);
+            let contact = targetObj.parentElement.parentElement.children[0].cloneNode(true);
+            let email = targetObj.parentElement.parentElement.children[1].cloneNode(true);
             modalHeader.innerHTML = '';
+            contact.classList.remove("col-6");
+            contact.classList.add("col-12");
             modalHeader.append(contact);
+            to.value = email.innerHTML;
+            console.log(email);
         }
     </script>
     

@@ -6,6 +6,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 var LocalStorage = require('node-localstorage').LocalStorage;
 localStorage = new LocalStorage('./scratch');
+const nodemailer = require("nodemailer");
 
 //If you'd like to use hbs partials you need next line
 //const hbs = require('hbs');
@@ -67,6 +68,67 @@ app.get('/delete-contact/:index', (req, res)=>{
 	contacts.splice(index, 1);
 	localStorage.setItem('contacts', JSON.stringify(contacts));
 	res.redirect('/');
+});
+
+let attachName = '';
+
+//set storage engine
+const attachStorager = multer.diskStorage({
+	destination: 'public/attachments/',
+	filename: (req, file, cb) => {
+		attachName = 'ea.' + Date.now() + path.extname(file.originalname);
+		cb(null, attachName);
+	}
+});
+
+//init upload
+const attachUpload = multer({
+	storage: attachStorager
+}).single('attach');
+
+app.post('/sendMail', (req,res) => {
+	attachUpload(req, res, () => {
+		console.log(req.body);
+
+		let transporter = nodemailer.createTransport({
+			service: 'gmail', // true for 465, false for other ports
+			auth: {
+			  user: '', // generated ethereal user
+			  pass: '' // generated ethereal password
+			}
+		});
+		
+		// send mail with defined transport object
+		let info =  {
+			from: '"Bülent\'s Contact List 👻" <bulent@mylist.com>', // sender address
+			to: req.body.to, // list of receivers
+			subject: req.body.subject, // Subject line
+			html: `<b>${req.body.message}</b>`, // html body
+			attachments: [
+				{   // file on disk as an attachment
+					filename: attachName,
+					path: 'public/attachments/' + attachName // stream this file
+				}]
+		}
+
+		transporter.sendMail(info, (err,info)=>{
+			if(err){
+				console.log(err);
+			}else{
+				console.log("Message sent: %s", info.messageId);
+				// Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+				
+				// Preview only available when sending through an Ethereal account
+				console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+				// Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+			}
+		});
+
+		
+		
+
+		res.redirect('/');
+	});
 });
 
 app.use('/', (req, res) =>
