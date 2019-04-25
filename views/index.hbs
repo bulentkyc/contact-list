@@ -14,6 +14,10 @@
         img {
             width: 40px;
             height: 40px;
+            border-radius: 50%;
+        }
+        ul {
+            padding: 0;
         }
     </style>
 </head>
@@ -46,25 +50,87 @@
         
     </form>
 
+    <!-- Modal -->
+    <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title" id="modalHeader"></div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="container" action="/sendMail" method="POST" enctype="multipart/form-data">
+                    
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
+                        </div>
+                        <input type="email" class="form-control" name="email"  placeholder="CC address">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">...</div>
+                        </div>
+                        <input type="text" class="form-control" name="name" placeholder="Mail Subject">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                    
+                <div class="input-group mb-2 ">
+                    <label class="custom-file-label" for="avatar">Choose File</label>
+                    <input type="file" class="custom-file-input" id="avatar" name="avatar">
+                </div>
+
+                <div class="input-group mb-2">
+                    <button type="submit" class="btn btn-primary btn-block">Send</button>
+                </div>
+                
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
     <div class="container">
         <ul class="col-xs-12 mx-auto ul">
             {{#each contactList}}
                 <li class="li row">
-                    <div class="float-left col-11">
+                    <div class="float-left col-10">
                         <img src="/uploads/{{this.avatar}}">
                         {{this.name}}
                         <div class="float-right">
                             {{this.email}}
                         </div>
                     </div>
+
                     <div class="col-1 text-center">
                         <a href="/delete-contact/{{@index}}">❌</a>
+                    </div>
+
+                    <div class="col-1 text-center">
+                        <a onclick="mailPopUp(this)" data-toggle="modal" data-target="#emailModal">✉</a>
                     </div>
                 </li>
             {{/each}}
         </ul>
     </div>
     
+    <script>
+        let mailPopUp = (targetObj) => {
+            let contact = targetObj.parentElement.parentElement.cloneNode(true);
+            modalHeader.innerHTML = '';
+            modalHeader.append(contact);
+        }
+    </script>
     
 </body>
 </html>
