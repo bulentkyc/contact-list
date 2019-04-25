@@ -61,6 +61,14 @@ app.post('/newContact', (req, res) => {
 	});
 });
 
+app.get('/delete-contact/:index', (req, res)=>{
+	const index = parseInt(req.params.index);
+	console.log(index);
+	contacts.splice(index, 1);
+	localStorage.setItem('contacts', JSON.stringify(contacts));
+	res.redirect('/');
+});
+
 app.use('/', (req, res) =>
 	res.render('index', {
 		contactList: JSON.parse(localStorage.getItem('contacts'))
