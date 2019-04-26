@@ -136,4 +136,7 @@ app.use('/', (req, res) =>
 	})
 );
 
-app.listen(process.env.PORT || 3000, () => console.log(`Server started on ${port}`));
+const host = '0.0.0.0';
+const port = process.env.PORT || 3000;
+
+app.listen(port, host, () => console.log(`Server started on ${port}`));
