@@ -64,7 +64,7 @@
             <form class="container" action="/sendMail" method="POST" enctype="multipart/form-data">
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
-                            <div class="input-group-text">@</div>
+                            <div class="input-group-text">to</div>
                         </div>
                         <input type="email" class="form-control" name="to" id="to" readonly>
                     </div>
@@ -91,6 +91,24 @@
                     <label class="custom-file-label" for="avatar">Choose File</label>
                     <input type="file" class="custom-file-input" id="attach" name="attach">
                 </div>
+
+                <hr>
+
+                <div class="input-group mb-2" id="userDiv">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">@</div>
+                    </div>
+                    <input type="email" class="form-control" name="user"  placeholder="Your G-mail address">
+                </div>
+
+                <div class="input-group mb-2" id="passDiv">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">&nbsp;*&nbsp;</div>
+                    </div>
+                    <input type="password" class="form-control" name="pass" placeholder="Your G-mail password">
+                </div>
+
+                <hr>
 
                 <div class="input-group mb-2">
                     <button type="submit" class="btn btn-primary btn-block">Send</button>
