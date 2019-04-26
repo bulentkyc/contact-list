@@ -15,7 +15,7 @@ const nodemailer = require("nodemailer");
 //app.engine('html', require('hbs'.__express));
 app.set('view engine', 'hbs');
 
-const port = process.env.port || 3000;
+let port = process.env.port || 3000;
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
