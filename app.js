@@ -15,7 +15,6 @@ const nodemailer = require("nodemailer");
 //app.engine('html', require('hbs'.__express));
 app.set('view engine', 'hbs');
 
-let port = process.env.port || 3000;
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -137,4 +136,4 @@ app.use('/', (req, res) =>
 	})
 );
 
-app.listen(port, () => console.log(`Server started on ${port}`));
+app.listen(process.env.PORT || 3000, () => console.log(`Server started on ${port}`));
