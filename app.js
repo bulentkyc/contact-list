@@ -23,6 +23,8 @@ let contacts = JSON.parse(localStorage.getItem('contacts'));
 console.log(contacts);
 
 let fileName = '';
+let emailUser = ''
+let emailPass = ''
 
 //set storage engine
 const storager = multer.diskStorage({
@@ -92,8 +94,8 @@ app.post('/sendMail', (req,res) => {
 		let transporter = nodemailer.createTransport({
 			service: 'gmail', // true for 465, false for other ports
 			auth: {
-			  user: '', // generated ethereal user
-			  pass: '' // generated ethereal password
+			  user: emailUser, // generated ethereal user
+			  pass: emailPass // generated ethereal password
 			}
 		});
 		
